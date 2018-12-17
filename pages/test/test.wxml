@@ -1,0 +1,3 @@
+<!--pages/test/test.wxml-->
+<text>{{msg}}</text>
+<button bind:tap="change">change</button>
