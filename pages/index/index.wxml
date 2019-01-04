@@ -1,4 +1,4 @@
-<!--index.wxml-->
+<!--pages/index/index.wxml-->
 <text>{{msg}}</text>
 <button bind:tap="change">change</button>
-<button bind:tap="handleNavigate" data-url="../test/test">go</button>
+<button bind:tap="handleNavigate" data-url="../second/second">go</button>

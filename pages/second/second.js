@@ -1,4 +1,4 @@
-// pages/test/test.js
+// pages/second/second.js
 const store = require('../../store/index')
 
 Page(store.createPage({
@@ -8,6 +8,6 @@ Page(store.createPage({
     msg: 'msg'
   },
   change() {
-    store.commit('change', 'thanks')
+    store.commit('change', 'Bye')
   }
 }))

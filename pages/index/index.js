@@ -1,5 +1,4 @@
-//index.js
-//获取应用实例
+// pages/index/index.js
 const store = require('../../store/index')
 
 Page(store.createPage({
@@ -11,7 +10,7 @@ Page(store.createPage({
   onLoad() {
   },
   change() {
-    store.commit('change', 'fuck')
+    store.commit('change', 'Hello')
   },
   handleNavigate(e) {
     wx.navigateTo({

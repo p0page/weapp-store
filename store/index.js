@@ -1,4 +1,4 @@
-const Store = require('../utils/Store')
+const Store = require('../lib/Store')
 
 const store = new Store({
   state: {
