@@ -7,8 +7,6 @@ Page(store.createPage({
   initStore: {
     msg: 'msg'
   },
-  onLoad() {
-  },
   change() {
     store.commit('change', 'Hello')
   },
