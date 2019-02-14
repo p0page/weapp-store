@@ -6,7 +6,7 @@
 
 ## 安装
 
-###方式一：通过npm安装（推荐）
+### 方式一：通过npm安装（推荐）
 
 小程序已经支持使用 npm 安装第三方包，详见 [npm 支持](https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html?search-key=npm)
 
