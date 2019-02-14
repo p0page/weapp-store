@@ -1,3 +1,1 @@
-import Store from './lib/Store'
-
-export default Store
+module.exports = require('./example/lib/Store')

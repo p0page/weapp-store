@@ -5,7 +5,22 @@
 ![](./asset/demo.gif)
 
 ## 安装
-Clone 本项目到本地，然后将 `lib/Store.js` 放到你的小程序项目目录之中。
+
+###方式一：通过npm安装（推荐）
+
+小程序已经支持使用 npm 安装第三方包，详见 [npm 支持](https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html?search-key=npm)
+
+```bash
+npm i weapp-store -S
+```
+
+### 方式二. 下载代码
+
+通过 git 将本项目clone到本地，然后将 `example/lib/Store.js` 放到你的小程序项目目录之中。
+
+```bash
+git clone https://github.com/Azath0th/weapp-store.git
+```
 
 ## 使用
 
