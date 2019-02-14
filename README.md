@@ -14,7 +14,7 @@
 npm i weapp-store -S
 ```
 
-### 方式二. 下载代码
+### 方式二：下载代码
 
 通过 git 将本项目 clone 到本地，然后将 `example/lib/Store.js` 放到你的小程序项目目录之中。
 
