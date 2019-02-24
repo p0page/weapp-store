@@ -1,6 +1,6 @@
 {
   "name": "weapp-store",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "一个基于flux架构的小程序状态管理器，为小程序带来类似于Vuex的开发体验。",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/Azath0th/weapp-store.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azath0th/weapp-store/issues"
   },
