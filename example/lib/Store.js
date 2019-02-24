@@ -89,22 +89,43 @@ class Store {
     Object.keys(state).forEach(key => {
       depList[key] = new Dep()
     })
-    //通过proxy监听数据变化，对相应的订阅者发出通知
-    return new Proxy ({...state}, {
-      get (target, key, receiver) {
-        const dep = depList[key]
-        //利用JavaScript单线程的特性，将watcher推入dep中
-        Dep.target && dep.add(Dep.target)
-        return Reflect.get(target, key, receiver)
-      },
-      set (target, key, value, receiver) {
-        const dep = depList[key]
-        const result = Reflect.set(target, key, value, receiver)
-        //通知订阅者完成数据的更新
-        dep.notify()
-        return result
-      }
-    })
+    let obj = {}
+    //检查运行环境是否支持Proxy
+    if (Proxy) {
+      //通过proxy监听数据变化，对相应的订阅者发出通知
+      obj = new Proxy ({...state}, {
+        get (target, key, receiver) {
+          const dep = depList[key]
+          //利用JavaScript单线程的特性，将watcher推入dep中
+          Dep.target && dep.add(Dep.target)
+          return Reflect.get(target, key, receiver)
+        },
+        set (target, key, value, receiver) {
+          const dep = depList[key]
+          const result = Reflect.set(target, key, value, receiver)
+          //通知订阅者完成数据的更新
+          dep.notify()
+          return result
+        }
+      })
+    } else {
+      Object.keys(state).forEach(key => {
+        let val = state[key]
+        Object.defineProperty(obj, key, {
+          get () {
+            const dep = depList[key]
+            Dep.target && dep.add(Dep.target)
+            return val
+          },
+          set (newVal) {
+            const dep = depList[key]
+            val = newVal
+            dep.notify()
+          }
+        })
+      })
+    }
+    return obj
   }
 }
 
