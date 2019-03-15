@@ -39,25 +39,29 @@ class Store {
     }
     const { initStore } = page
     if (_.isObject(initStore)) {
-      Object.keys(initStore).forEach(key => {
-        const element = initStore[key]
-        if (_.isString(element) && that.state[element] !== void 0) {
-          const { onUnload, onLoad } = page
-          let watcher
-          //利用AOP的思想，以无侵入的形式对page的onLoad、onUnload做处理
-          page.onLoad = function () {
-            //在正常的onLoad操作之前，实例化一个watcher，将page对象保存下来
-            watcher = new Watcher(that.state, this, key, element)
-            _.isFunction(onLoad) && onLoad.apply(this, arguments)
+      //利用AOP的思想，以无侵入的形式对page的onLoad、onUnload做处理
+      const watchers = Object.keys(initStore)
+        .reduce((arr, key)=> {
+          const stateKey = initStore[key]
+          if (_.isString(stateKey) && that.state[stateKey] !== void 0) {
+            arr.push(new Watcher(that.state, key, stateKey))
           }
-          page.onUnload = function () {
-            //在page卸载前，将其中的watcher销毁
-            _.isFunction(onUnload) && onUnload.call(this)
-            that.depList[element].destory(watcher.id)
-          }
-        }
-      })
-      delete page.initStore
+          return arr
+        }, [])
+
+      const { onLoad, onUnload } = page
+      //在正常的onLoad操作之前，初始化watcher实例，将page对象保存下来
+      page.onLoad = function () {
+        watchers.forEach(watcher => watcher.init(this))
+        _.isFunction(onLoad) && onLoad.apply(this, arguments)
+      }
+      //在page卸载前，将其中的watcher销毁
+      page.onUnload = function () {
+        _.isFunction(onUnload) && onUnload.call(this)
+        watchers.forEach(watcher => that.depList[watcher.stateKey].destory(watcher.id))
+      }
+      
+      Reflect.deleteProperty(page, 'initStore')
     }
     return page
   }
@@ -132,13 +136,16 @@ class Store {
 let watcherId = 1
 
 class Watcher { 
-  constructor (state, page, name, stateKey) {
-    Dep.target = this
+  constructor (state, name, stateKey) {
     this.id = watcherId++
-    this.page = page
     this.name = name
     this.stateKey = stateKey
     this.state = state
+  }
+
+  init (page) {
+    Dep.target = this
+    this.page = page
     this.update()
     Dep.target = null
   }
